@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "badge",
+			"path": "badge"
+		},
+		{
+			"name": "esp32",
+			"path": "esp32"
+		}
+	}
+}
