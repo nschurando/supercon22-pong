@@ -52,6 +52,12 @@ void bytes_received(const uint8_t *mac_addr, const uint8_t *data, int data_len) 
     }
 }
 
+// callback when data is sent
+void data_sent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+    Serial.print(" [d] Last Packet Send Status:\t");
+    Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+}
+
 /**
  *
  */
@@ -65,6 +71,7 @@ int badge_remote::setup(void) {
 
     /* Register callback */
     esp_now_register_recv_cb(bytes_received);
+    esp_now_register_send_cb(data_sent);
 
     /* Determine mac address of other badge
      * Nico = 24:D7:EB:41:7B:1C

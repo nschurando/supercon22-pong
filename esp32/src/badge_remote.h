@@ -26,6 +26,7 @@ class badge_remote {
     int message_read(struct badge_message &msg);
     int message_write(struct badge_message msg);
     friend void bytes_received(const uint8_t *mac_addr, const uint8_t *data, int data_len);
+    friend void data_sent(const uint8_t *mac_addr, esp_now_send_status_t status);
 
    protected:
     struct {
