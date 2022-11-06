@@ -1,5 +1,14 @@
+/* Project code */
+#include "badge_local.h"
+#include "game.h"
+#include "joystick.h"
+
 /* Arduino libraries */
 #include <Arduino.h>
+#include <WiFi.h>
+
+/* Esp32 libraries */
+#include <esp_now.h>
 
 /* Config */
 #include "../cfg/config.h"
@@ -8,23 +17,38 @@
  *
  */
 void setup() {
-    // DEBUG monitoring
 
     /* Setup serial to computer */
     Serial.begin(115200);
     Serial.println(" [i] Hello world");
 
-    /* Setup serial to badge */
-    Serial2.begin(9600, SERIAL_8N1, CONFIG_BADGELINK_RX_PIN, CONFIG_BADGELINK_TX_PIN);
+    /* Setup wi-fi */
+    Serial.print(" [i] MAC Address: ");
+    Serial.println(WiFi.macAddress());
+    WiFi.mode(WIFI_STA);
 }
 
 /**
  *
  */
 void loop() {
+    int res;
 
-    /* For now, echo what badge emits */
-    while (Serial2.available() > 0) {
-        Serial.printf(" [d] badge says: 0x%02X\r\n", Serial2.read());
+    /* Handle incoming messages from badge */
+    res = badge_local.task();
+    if (res < 0) {
+        Serial.printf(" [e] Error while processing local badge messages!\r\n");
+    }
+
+    /* Handle game */
+    res = game.task();
+    if (res < 0) {
+        Serial.printf(" [e] Error while managing game!\r\n");
+    }
+
+    /* Handle joystick */
+    res = joystick.task();
+    if (res < 0) {
+        Serial.printf(" [e] Error while managing joystick!\r\n");
     }
 }
