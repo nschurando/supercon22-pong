@@ -34,6 +34,7 @@ class badge_remote {
     } m_queue_rx[CONFIG_BADGE_MESSAGE_QUEUE_SIZE] = {0};
     int m_queue_rx_index = 0;
     uint8_t m_address_remote[6] = {0};
+    esp_now_peer_info_t m_peer_info;
 };
 
 /* Global instance */

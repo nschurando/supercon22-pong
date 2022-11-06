@@ -88,12 +88,11 @@ int badge_remote::setup(void) {
 #endif
 
     /* Add peer */
-    esp_now_peer_info_t peerInfo;
-    memcpy(peerInfo.peer_addr, m_address_remote, 6);
-    peerInfo.channel = 0;
-    peerInfo.encrypt = false;
-    if (esp_now_add_peer(&peerInfo) != ESP_OK) {
-        Serial.println(" [e] Failed to add peer\r\n!");
+    memcpy(m_peer_info.peer_addr, m_address_remote, 6);
+    m_peer_info.channel = 0;
+    m_peer_info.encrypt = false;
+    if (esp_now_add_peer(&m_peer_info) != ESP_OK) {
+        Serial.println(" [e] Failed to add peer!\r\n");
         return -1;
     }
 
